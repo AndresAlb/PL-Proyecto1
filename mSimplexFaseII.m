@@ -34,19 +34,16 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c)
         imprimirTableau = false;
     end
 
-    % 1.1 Calculamos los costos relativos iniciales 
-    % En estado 0, A_B = Identidad
-    c_N = c';
-    c_B = zeros(1, m);
-    c = [c_N c_B];
-    lambda = c_B;
-    r_N = lambda*A - c_N;
-
-    % 1.2 Construccion del tableau inicial y definicion 
-    % de los conjuntos B y N
+    % 1.1 Calculamos los costos relativos iniciales, definimos los
+    % conjuntos B, N
     N = 1:n;
     B = n+1:m+n;
-    T = construirTableau(eye(m), A, c_B, r_N, b, B, N, iter, imprimirTableau);
+    c = [c' zeros(1, m)];
+    lambda = c(B);
+    r_N = lambda*A - c';
+
+    % 1.2 Construccion del tableau inicial 
+    T = construirTableau(eye(m), A, c(B), r_N, b, B, N, iter, imprimirTableau);
     h = T(1:m, m+n+1);
     
     % Si el conjunto factible es vacio, el Metodo Simplex no
@@ -97,15 +94,13 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c)
             % asociados a nuestras variables basicas y no-basicas
             AB = T(1:m, B);
             AN = T(1:m, N);
-            c_B = c(B);
-            c_N = c(N);
             
             % 4.1 Calculamos los nuevos costos relativos y 
             % construimos el nuevo tableau 
-            lambda = (AB')\c_B';
+            lambda = (AB')\c(B)';
             lambda = lambda';
-            r_N = lambda*AN - c_N;
-            T = construirTableau(AB, AN, c_B, r_N, h, B, N, iter, imprimirTableau);
+            r_N = lambda*AN - c(N);
+            T = construirTableau(AB, AN, c(B), r_N, h, B, N, iter, imprimirTableau);
             
         else
             
