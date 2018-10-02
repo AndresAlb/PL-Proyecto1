@@ -40,7 +40,8 @@
     
     % 2.4 Problema con SBF degenerada
     
-    % Solucion: x* = TBT
+    % Todavia no funciona. Segun MATLAB es no acotado,
+    % segun Vanderbei tiene SBFD
     A = [1 0 4 1 -5 -2 3 -6; 
          0 1 -3 -1 4 1 -2 5;
          1 0 0 0 0 0 0 0;
@@ -53,5 +54,14 @@
          0 0 0 0 0 0 0 1];
      b = [7; 3; 8; 6; 10; 15; 2; 10; 4; 3];
      c = [-3; -1; 1; 2; -1; 1; -1; -4];
+     
+% 3 Luenberger
+
+    % 3.1 Problema acotado con conjunto factible no vacio
+    
+    % Solucion: z* = 27/5, B = {1,3,6}, x* = (1/5, 8/5, 4)
+    A = [2 1 1; 1 2 3; 2 2 1]; b = [2; 5; 6]; c = [3; 1; 3];
+    
+    % 3.2 
     
     
