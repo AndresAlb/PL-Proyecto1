@@ -30,7 +30,7 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c)
     % Solo imprimimos el tableau y los pasos para problemas
     % pequeños
     imprimirTableau = true;
-    if n + m > 15
+    if n + m > 11
         imprimirTableau = false;
     end
 
@@ -40,17 +40,18 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c)
     B = n+1:m+n;
     c = [c' zeros(1, m)];
     lambda = c(B);
-    r_N = lambda*A - c';
+    r_N = lambda*A - c(N);
 
-    % 1.2 Construccion del tableau inicial 
+    % 1.2 Construccion del tableau inicial
     T = construirTableau(eye(m), A, c(B), r_N, b, B, N, iter, imprimirTableau);
+    AB = T(1:m, B);
     h = T(1:m, m+n+1);
     
     % Si el conjunto factible es vacio, el Metodo Simplex no
     % tendra opcion mas que escoger un punto que no cumpla
     % la restriccion de no-negatividad
     if any(h < 0)
-        fprintf("\nConjunto factible vacio\n");
+        fprintf("Conjunto factible vacio\n");
         ban = -1;
     end
     
@@ -106,21 +107,28 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c)
             
             % El problema es no-acotado. 
             ban = 1;
+            fprintf("Problema no-acotado\n");
             break;
         
         end
         
     end
     
-    x0 = AB\h;
-    z0 = c_B*x0;
-    x0 = x0(B <= n); % Solo devolvemos los valores de las variables originales
+    if ban == -1
+        x0 = [];
+        z0 = [];
+    else
+        x0 = zeros(m+n, 1);
+        x0(B) = AB\h;
+        z0 = c*x0;
+        x0 = x0(1:n); % Solo devolvemos los valores de las variables originales
+    end
     
     return;
   
 end
 
-function [T] = construirTableau(A_B, A_N, c_B, r_N, b, B, N, iter, imprimirTableau)
+function [T] = construirTableau(AB, AN, c_B, r_N, b, B, N, iter, imprimirTableau)
 
 % Esta funcion construye el tableau correspondiente a la base B
 % usando las matrices A_B, A_N y los coeficientes c_B y c_N
@@ -130,8 +138,8 @@ function [T] = construirTableau(A_B, A_N, c_B, r_N, b, B, N, iter, imprimirTable
 
     T = zeros(m+1,m+n+1);
     
-    h = A_B\b;
-    H = A_B\A_N;
+    h = AB\b;
+    H = AB\AN;
     z = c_B*h;
 
     T(1:m, B) = eye(m);
