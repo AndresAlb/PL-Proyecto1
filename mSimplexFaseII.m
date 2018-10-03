@@ -1,4 +1,4 @@
-function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c) 
+function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, imprimirTableau) 
 
 % Esta función realiza la Fase II del Metodo Simplex para problemas
 % que tienen la siguiente forma
@@ -9,8 +9,10 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c)
 % In :  A ... mxn matrix 
 %       b ... column vector with as many rows as A 
 %       c ... column vector with as many entries as one row of A 
+%       imprimirTableau ... boolean variable which indicates whether
+%       or not to print the step-by-step solution of the given problem 
 % 
-% Out:  xo ..... SFB optima del problema 
+% Out:  xo ..... SBF optima del problema 
 %       zo ..... valor optimo del problema 
 %       ban .... indica casos: 
 %           -1 ... si el conjunto factible es vacio 
@@ -21,18 +23,13 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c)
 
     % 1 Construccion del tableau en estado 0 
     
-    format rat; % MATLAB imprime fracciones en vez de decimales
-
+    if imprimirTableau
+        format rat; % MATLAB imprime fracciones en vez de decimales
+    end
+    
     [m, n] = size(A); % m variables basicas
     iter = 0;
     ban = 0;
-    
-    % Solo imprimimos el tableau y los pasos para problemas
-    % pequeños
-    imprimirTableau = true;
-    if n + m > 11
-        imprimirTableau = false;
-    end
 
     % 1.1 Calculamos los costos relativos iniciales, definimos los
     % conjuntos B, N
