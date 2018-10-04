@@ -23,9 +23,7 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, imprimirTableau)
 
     % 1 Construccion del tableau en estado 0 
     
-    if imprimirTableau
-        format rat; % MATLAB imprime fracciones en vez de decimales
-    end
+    format rat; % MATLAB imprime fracciones en vez de decimales
     
     [m, n] = size(A); % m variables basicas
     iter = 0;
@@ -48,7 +46,9 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, imprimirTableau)
     % tendra opcion mas que escoger un punto que no cumpla
     % la restriccion de no-negatividad
     if any(h < 0)
-        fprintf("Conjunto factible vacio\n");
+        if imprimirTableau
+            fprintf("Conjunto factible vacio\n");
+        end
         ban = -1;
     end
     
@@ -104,7 +104,9 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, imprimirTableau)
             
             % El problema es no-acotado. 
             ban = 1;
-            fprintf("Problema no-acotado\n");
+            if imprimirTableau
+                fprintf("Problema no-acotado\n");
+            end
             break;
         
         end

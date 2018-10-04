@@ -16,8 +16,7 @@ for m = 3:M
     t(m-2) = toc;
 end
 
-format;
-format COMPACT;
+format; % Restablece el formato de impresion de MATLAB
 
 fprintf("\n          m:");
 disp(3:M);
