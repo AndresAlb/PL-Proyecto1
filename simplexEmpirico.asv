@@ -10,6 +10,7 @@ res = zeros(N, 3);
 res(:, 3) = false;
 
 for i = 1:N
+    
     % Generar dimensiones del problema 
     m = round(10*exp(log(20)*rand())); 
     n = round(10*exp(log(20)*rand()));
@@ -28,5 +29,6 @@ for i = 1:N
         res(i, :) = [min(m,n), iter, true];
     else
         res(i, 1:2) = [min(m,n), iter];
-    end   
+    end
+    
 end
