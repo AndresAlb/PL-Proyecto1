@@ -1,9 +1,9 @@
 function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, imprimirTableau) 
 
-% Esta función realiza la Fase II del Metodo Simplex para problemas
+% Esta funcion realiza la Fase II del Metodo Simplex para problemas
 % que tienen la siguiente forma
 %
-%               minimizar   c^T x 
+%               minimizar   c'x 
 %               sujeto a    Ax <= b , x >= 0 , b >= 0 
 % 
 % In :  A ... mxn matrix 
@@ -128,7 +128,7 @@ end
 function [T] = construirTableau(AB, AN, c_B, r_N, b, B, N, iter, imprimirTableau)
 
 % Esta funcion construye el tableau correspondiente a la base B
-% usando las matrices A_B, A_N y los coeficientes c_B y c_N
+% usando las matrices AB, AN y los coeficientes c_B
 
     m = length(B);
     n = length(N);
