@@ -4,13 +4,12 @@
 % entre las dimensiones del problema min(m,n), el numero de iteraciones 
 % y una variable booleana que indica si el problema tenia solucion o no
 
-N = 5; % Numero de problemas que se quieren generar
+N = 50; % Numero de problemas que se quieren generar
 
 res = zeros(N, 3);
-res(:, 3) = false;
 
 for i = 1:N
-    % Generar dimensiones del problema 
+    % Generar dimensiones del problema (m,n <= 200) 
     m = round(10*exp(log(20)*rand())); 
     n = round(10*exp(log(20)*rand()));
     
@@ -25,8 +24,36 @@ for i = 1:N
     
     % Guardamos los resultados que nos interesan
     if ban == 0
-        res(i, :) = [min(m,n), iter, true];
+        res(i, :) = [min(m,n), iter, 1];
     else
         res(i, 1:2) = [min(m,n), iter];
     end   
 end
+
+% Separamos los resultados dependiendo de si tienen solucion o no
+% y los guardamos en un "structure array"
+% (ver https://la.mathworks.com/help/matlab/matlab_prog/create-a-structure-array.html)
+resProblemas.conSolucion.minMN = res(logical(res(:, 3)), 1);
+resProblemas.conSolucion.iter = res(logical(res(:, 3)), 2);
+resProblemas.sinSolucion.minMN = res(~logical(res(:, 3)), 1);
+resProblemas.sinSolucion.iter = res(~logical(res(:, 3)), 2);
+
+% Graficamos los resultados
+scatter( resProblemas.conSolucion.minMN, resProblemas.conSolucion.iter, 'b', 'filled'); 
+hold on
+scatter( resProblemas.sinSolucion.minMN, resProblemas.sinSolucion.iter, 'r', 's', 'filled'); 
+hold off
+
+% Titulos, nombres de ejes y etiquetas
+xlabel('$\min(m,n)$', 'interpreter', 'latex', 'fontsize', 21); 
+ylabel('Numero de iteraciones', 'fontsize', 21); 
+legend({'Problemas con solucion', 'Problemas sin solucion o no-acotados'}, ...
+    'fontname', 'Segoe UI Light', 'fontsize', 15, 'location', 'southeast');
+
+% Formato de los ejes
+% Para hacer que la grafica sea cuadrada usar "axis square"
+set(gca, 'xscale', 'log', 'yscale', 'log', 'xlim', [0, 201]); 
+grid off
+
+
+
