@@ -39,21 +39,23 @@ resProblemas.sinSolucion.minMN = res(~logical(res(:, 3)), 1);
 resProblemas.sinSolucion.iter = res(~logical(res(:, 3)), 2);
 
 % Graficamos los resultados
-scatter( resProblemas.conSolucion.minMN, resProblemas.conSolucion.iter, 'b', 'filled'); 
+scatter( resProblemas.conSolucion.minMN, resProblemas.conSolucion.iter, 120, 'b', 'filled'); 
 hold on
-scatter( resProblemas.sinSolucion.minMN, resProblemas.sinSolucion.iter, 'r', 's', 'filled'); 
+scatter( resProblemas.sinSolucion.minMN, resProblemas.sinSolucion.iter, 120, 'r', 's', 'filled'); 
 hold off
 
 % Titulos, nombres de ejes y etiquetas
-xlabel('$\min(m,n)$', 'interpreter', 'latex', 'fontsize', 21); 
-ylabel('Numero de iteraciones', 'fontsize', 21); 
-legend({'Problemas con solucion', 'Problemas sin solucion o no-acotados'}, ...
-    'fontname', 'Segoe UI Light', 'fontsize', 15, 'location', 'southeast');
+xlabel('$\min(m,n)$', 'interpreter', 'latex', 'fontsize', 33); 
+ylabel('Numero de iteraciones', 'fontsize', 33); 
+[~, iconos, ~, etiquetas] = legend({'Problemas con solucion', ...
+    'Problemas sin solucion o no-acotados'}, ...
+    'fontname', 'Segoe UI Light', 'fontsize', 27, 'location', 'southeast');
+for k = (length(iconos)/2+1):length(iconos)
+    % Increase legend marker size
+    iconos(k).Children.MarkerSize = 17; 
+end
 
 % Formato de los ejes
 % Para hacer que la grafica sea cuadrada usar "axis square"
-set(gca, 'xscale', 'log', 'yscale', 'log', 'xlim', [0, 201]); 
+set(gca, 'xscale', 'log', 'yscale', 'log', 'xlim', [0, 201], 'fontsize', 27); 
 grid off
-
-
-
