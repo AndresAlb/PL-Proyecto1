@@ -24,3 +24,9 @@ fprintf("\nIteraciones:");
 disp(iter);
 fprintf("\n     Tiempo:");
 disp(t);
+
+scatter(3:M, t, 120, 'o', 'filled');
+set(gca, 'xlim', [3, 11], 'fontsize', 20); 
+ylabel('Tiempo', 'fontname', 'Segoe UI Light', 'fontsize', 30); 
+xlabel('Dimension', 'fontname', 'Segoe UI Light', 'fontsize', 30); 
+grid on

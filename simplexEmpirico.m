@@ -44,6 +44,11 @@ hold on
 scatter( resProblemas.sinSolucion.minMN, resProblemas.sinSolucion.iter, 120, 'r', 's', 'filled'); 
 hold off
 
+% Formato de los ejes
+% Para hacer que la grafica sea cuadrada usar "axis square"
+set(gca, 'xscale', 'log', 'yscale', 'log', 'xlim', [0, 201], 'fontsize', 27); 
+grid off
+
 % Titulos, nombres de ejes y etiquetas
 xlabel('$\min(m,n)$', 'interpreter', 'latex', 'fontsize', 33); 
 ylabel('Numero de iteraciones', 'fontsize', 33); 
@@ -55,7 +60,4 @@ for k = (length(iconos)/2+1):length(iconos)
     iconos(k).Children.MarkerSize = 17; 
 end
 
-% Formato de los ejes
-% Para hacer que la grafica sea cuadrada usar "axis square"
-set(gca, 'xscale', 'log', 'yscale', 'log', 'xlim', [0, 201], 'fontsize', 27); 
-grid off
+
