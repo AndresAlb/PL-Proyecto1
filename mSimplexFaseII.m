@@ -21,9 +21,10 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, imprimirTableau)
 %       iter ... numero de iteraciones (cambios de variables basicas) 
 %       que hizo el metodo
 
-    % 1 Construccion del tableau en estado 0 
     
     format rat; % MATLAB imprime fracciones en vez de decimales
+
+    % 1 Construccion del tableau en estado 0 
     
     [m, n] = size(A); % m variables basicas
     iter = 0;
