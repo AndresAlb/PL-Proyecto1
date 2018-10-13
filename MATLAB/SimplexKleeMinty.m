@@ -1,6 +1,6 @@
 
 % Este script genera y resuelve el problema de Klee-Minty de 
-% tamaño m = 3, 4,..., 10 usando la funcion generaKleeMinty y
+% dimension m = 3, 4,..., 10 usando la funcion generaKleeMinty y
 % mSimplexFaseII para medir el tiempo y el numero de iteraciones
 % que realiza el metodo en cada caso
 
