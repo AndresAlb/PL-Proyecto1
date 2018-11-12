@@ -10,8 +10,10 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, imprimirPasos)
 %       b ... column vector with as many rows as A 
 %       c ... column vector with as many entries as one row of A 
 %       imprimirPasos ... boolean variable which indicates whether
-%       or not to print the step-by-step solution of the given problem 
-% 
+%       or not to print the step-by-step solution of the given problem. 
+%       Setting this parameter equal to true forces the program to use 
+%       a less efficient version of the Revised Simplex Method.
+%  
 % Out:  xo ..... SBF optima del problema 
 %       zo ..... valor optimo del problema 
 %       ban .... indica casos: 
