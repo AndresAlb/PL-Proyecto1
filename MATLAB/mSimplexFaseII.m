@@ -35,7 +35,9 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, imprimirPasos)
     
     % Si el conjunto factible es vacio, el Metodo Simplex no
     % tendra opcion mas que escoger un punto que no cumpla
-    % la restriccion de no-negatividad.
+    % la restriccion de no-negatividad por lo que algun valor
+    % de b es negativo. En teoria, no deberiamos tener este 
+    % caso porque la documentacion pide b >= 0.
     if any(b < 0)
         
         if imprimirPasos
