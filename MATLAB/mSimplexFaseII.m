@@ -25,7 +25,7 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, imprimirPasos)
     
     iter = 0;
 
-    % 1 Definicion de las variables en estado 0 
+    % 1 Definicion de las variables iniciales
     
     [m, n] = size(A); % m variables basicas
     ban = 0;
@@ -47,7 +47,7 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, imprimirPasos)
     end
     
     if imprimirPasos
-       imprimirTableau(A(:, N), c(B), rN, h, B, N, iter); 
+       imprimirTableau(A(:, B), A(:, N), c(B), rN, h, B, N, iter); 
     end
     
     % 2 Probamos la condicion de optimalidad
@@ -57,18 +57,20 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, imprimirPasos)
         % la Regla de Bland
         e = find(rN > 0, 1);
         
+        colEntrada = A(:, B)\A(:, N(e));
+        
         % 3 Probamos si el problema es acotado
-        if any(A(:, N(e)) > 0)
+        if any(colEntrada > 0)
             
             % 3.1 Seleccion de la variable de salida mediante
             % la Regla de Bland
 
             % Buscamos los indices de los denominadores no-positivos
-            noPositivos = A(:, N(e)) <= 0; 
+            noPositivos = colEntrada <= 0; 
 
             % Calculamos los cocientes y asignamos infinito a los
             % cocientes que tienen denominador menor o igual a cero 
-            cocientes = h./A(:, N(e));
+            cocientes = h./colEntrada;
             cocientes(noPositivos) = inf;
 
             % s es el indice que corresponde al minimo de cocientes
@@ -81,17 +83,16 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, imprimirPasos)
             
             % 4 Redefinimos los conjuntos B y N 
             [B(s), N(e)] = deal( N(e), B(s) );
-            [A(:, B), A(:, N), h] = deal( eye(m),...
-                A(:, B)\A(:, N), A(:, B)\h );
             iter = iter + 1;
             
             % 4.1 Calculamos los nuevos costos relativos 
             lambda = A(:, B)'\c(B)';
             lambda = lambda';
             rN = lambda*A(:, N) - c(N);
+            h = A(:, B)\b;
             
             if imprimirPasos
-                imprimirTableau(A(:, N), c(B), rN, h, B, N, iter);
+                imprimirTableau(A(:, B), A(:, N), c(B), rN, h, B, N, iter);
             end
             
         else
@@ -108,7 +109,7 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, imprimirPasos)
     
     if ban == 0
         x0 = zeros(m+n, 1);
-        x0(B) = A(:,B)\h;
+        x0(B) = h;
         z0 = c*x0;
         
         % Solo devolvemos los valores de las variables originales
@@ -121,7 +122,7 @@ function [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, imprimirPasos)
   
 end
 
-function imprimirTableau(AN, cB, rN, h, B, N, iter)
+function imprimirTableau(AB, AN, cB, rN, h, B, N, iter)
 
 % Este metodo imprime el tableau asociado a la base B
 % usando las matrices AB, AN y los vectores rN y h
@@ -132,7 +133,7 @@ function imprimirTableau(AN, cB, rN, h, B, N, iter)
     T = zeros(m+1,m+n+1);
 
     T(1:m, B) = eye(m);
-    T(1:m, N) = AN;
+    T(1:m, N) = AB\AN;
     T(1:m, m+n+1) = h;
     T(m+1, N) = rN;
     T(m+1, m+n+1) = cB*h;

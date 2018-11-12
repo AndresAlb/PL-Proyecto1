@@ -54,7 +54,7 @@
     % 3.1 Problema de maximizacion acotado con conjunto factible no-vacio
     
     % Solucion: z* = 27/5, B = {1,3,6}, x* = (1/5, 8/5, 4)
-    fprintf(['\n3.1 Problema de maximizacion acotado con conjunto'... 
+    fprintf(['\n3.1 Problema de maximizacion acotado con conjunto '... 
         'factible no-vacio\n']);
     A = [2 1 1; 1 2 3; 2 2 1]; b = [2; 5; 6]; c = [3; 1; 3]; c = -c;
     [x0, z0, ban, iter] = mSimplexFaseII(A, b, c, true)
